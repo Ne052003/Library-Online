@@ -1,5 +1,6 @@
 package com.neoapps.library_management_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,17 +21,18 @@ public class Bill {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Transaction> transactions;
 
     @Setter(AccessLevel.NONE)
-    private LocalDateTime time;
+    private LocalDateTime date;
 
     private BigDecimal total;
 
     @PrePersist
     protected void prePersist() {
-        this.time = LocalDateTime.now();
+        this.date = LocalDateTime.now();
     }
 
 }

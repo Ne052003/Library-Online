@@ -12,11 +12,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private BigDecimal price;
+    private BigDecimal rentalPrice;
     private String author;
     private int stock;
 }
