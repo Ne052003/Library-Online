@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 public class Purchase extends Transaction {
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)

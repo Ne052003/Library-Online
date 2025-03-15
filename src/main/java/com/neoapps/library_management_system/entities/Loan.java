@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 public class Loan extends Transaction {
 
     @ManyToOne
@@ -24,5 +24,10 @@ public class Loan extends Transaction {
     private boolean isPaid;
 
     private LocalDateTime deadline;
+
+    @PrePersist
+    public void prePersist() {
+        this.deadline = LocalDateTime.now().plusMonths(1);
+    }
 
 }

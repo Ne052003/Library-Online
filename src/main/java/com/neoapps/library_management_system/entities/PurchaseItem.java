@@ -8,7 +8,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class PurchaseItem {
 
     @Id
