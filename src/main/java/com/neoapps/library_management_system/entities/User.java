@@ -1,7 +1,9 @@
 package com.neoapps.library_management_system.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -20,6 +23,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String fullName;
 
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -28,6 +32,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private String address;
 
     private LocalDateTime createdAt;
 
