@@ -1,10 +1,11 @@
 package com.neoapps.library_management_system.controllers;
 
 import com.neoapps.library_management_system.config.AuthRequest;
-import com.neoapps.library_management_system.entities.User;
-import com.neoapps.library_management_system.repositories.UserRepository;
+import com.neoapps.library_management_system.dto.UserCreateDTO;
 import com.neoapps.library_management_system.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +21,9 @@ public class AuthController {
 
     private final AuthService authService;
 
-    private final UserRepository userRepository;
-
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        return ResponseEntity.ok(authService.register(user));
+    public ResponseEntity<String> register(@Valid @RequestBody UserCreateDTO userCreateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userCreateDTO.toDAO()));
     }
 
     @PostMapping("/login")

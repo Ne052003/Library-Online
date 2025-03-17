@@ -3,7 +3,6 @@ package com.neoapps.library_management_system.controllers;
 import com.neoapps.library_management_system.entities.Book;
 import com.neoapps.library_management_system.services.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +31,5 @@ public class BookController {
     public ResponseEntity<List<Book>> getByAuthor(@RequestParam("authorName") String authorName) {
         return ResponseEntity.ok(bookService.getByAuthor(authorName));
     }
-
-    @PostMapping
-    public ResponseEntity<Book> create(@RequestBody Book book) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(book));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Book> update(@RequestBody Book book, @PathVariable("id") Long id) {
-        return ResponseEntity.ok(bookService.update(id, book));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Book> delete(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(bookService.deleteById(id));
-    }
-
 
 }
