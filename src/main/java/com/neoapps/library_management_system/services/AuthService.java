@@ -1,6 +1,6 @@
 package com.neoapps.library_management_system.services;
 
-import com.neoapps.library_management_system.dto.UserDTO;
+import com.neoapps.library_management_system.dto.UserResponseDTO;
 import com.neoapps.library_management_system.entities.Role;
 import com.neoapps.library_management_system.entities.User;
 import com.neoapps.library_management_system.repositories.UserRepository;
@@ -44,11 +44,11 @@ public class AuthService {
         );
 
         String token = jwtUtil.generateToken(user);
-        UserDTO userDTO = new UserDTO(user);
+        UserResponseDTO userResponseDTO = new UserResponseDTO(user);
 
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);
-        response.put("user", userDTO);
+        response.put("user", userResponseDTO);
 
         return response;
     }

@@ -1,5 +1,7 @@
 package com.neoapps.library_management_system.services;
 
+import com.neoapps.library_management_system.dto.UserCreateDTO;
+import com.neoapps.library_management_system.dto.UserResponseDTO;
 import com.neoapps.library_management_system.entities.User;
 import com.neoapps.library_management_system.repositories.UserRepository;
 import com.neoapps.library_management_system.utils.ResourceNotFoundException;
@@ -32,27 +34,44 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> usersDAO = userRepository.findAll();
+        return usersDAO.stream().map(UserResponseDTO::new).toList();
     }
 
-    public Optional<User> getUserById(Long userId) {
-        return userRepository.findById(userId);
-    }
-
-    @Transactional
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public Optional<UserResponseDTO> getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.map(UserResponseDTO::new);
     }
 
     @Transactional
-    public Optional<User> deleteUser(Long userId) {
+    public UserResponseDTO saveUser(UserCreateDTO userCreateDTO) {
+        User user = userRepository.save(userCreateDTO.toDAO());
+        return new UserResponseDTO(user);
+    }
+
+    @Transactional
+    public UserResponseDTO updateUser(UserResponseDTO userResponseDTO) {
+        Optional<User> optionalUser = userRepository.findById(userResponseDTO.getId());
+        if (optionalUser.isPresent()) {
+            User userDB = optionalUser.get();
+            userDB.setFullName(userResponseDTO.getFullName());
+            userDB.setEmail(userResponseDTO.getEmail());
+            userDB.setAddress(userResponseDTO.getAddress());
+            return new UserResponseDTO(userRepository.save(userDB));
+        } else {
+            throw new ResourceNotFoundException("User with id: " + userResponseDTO.getId() + " not found ");
+        }
+    }
+
+    @Transactional
+    public Optional<UserResponseDTO> deleteUser(Long userId) {
 
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
             userRepository.deleteById(userId);
         }
-        return userOptional;
+        return userOptional.map(UserResponseDTO::new);
     }
 }
