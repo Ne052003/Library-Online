@@ -5,13 +5,12 @@ Bookstore API is a system developed with **Spring Boot** that enables the manage
 
 ## 🚀 Technologies Used
 - Java 17
-- Spring Boot 3
+- Spring Boot 3.4.3
+- Spring Web
 - Spring Security (JWT)
 - Hibernate (JPA)
 - MySQL
 - Lombok
-- React (for the frontend)
-
 ---
 
 ## 📦 Installation and Configuration
@@ -33,7 +32,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ### 3️⃣ Run the Application
 ```sh
-./mvnw spring-boot:run
+./gradlew bootRun
 ```
 
 ---
